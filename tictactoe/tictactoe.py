@@ -115,6 +115,9 @@ def minimax(board):
     activePlayer = player(board)
 
     def max_value(boardCopy):
+        """
+        Finds best action for ai by mapping winning actions to higher values and selecting best action based on highest value.
+        """
         if terminal(boardCopy):
             # Make sure utility returns 1 for ai player, not human
             if activePlayer == X:
@@ -130,14 +133,19 @@ def minimax(board):
                 if v == 1:
                     # If an action wins, break loop and use that action
                     winningAction.append((action))
-                    break
                 if v == 0:
                     # If no winning action, any tie will work
                     if len(tyingAction) != 1:
                         tyingAction.append((action))
+            # Alpha Beta pruning, don't check more actions if computer has an optimal action that will lead to a win
+            if v == 1:
+                break
         return v
 
     def min_value(boardCopy):
+        """
+        Finds best action for human by mapping winning actions to lower values and selecting best action based on lowest value.
+        """
         if terminal(boardCopy):
             if activePlayer == X:
                 # Again, make sure utility returns 1 for ai
